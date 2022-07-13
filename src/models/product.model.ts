@@ -33,6 +33,18 @@ export interface Pagination {
   items: string;
   totalPage: number;
 }
+export interface ProductSearch{
+  category?:string;
+  orderby?:string;
+  page?:number;
+  search?:string;
+  onsale?:string;
+  filter_condition?:string;
+  filter_designer?:string;
+  price?:string; 
+  filter_color?:string;
+  brand?:string;
+}
 export interface ProductResult {
   count: number;
   data: Product[];
@@ -41,3 +53,10 @@ export interface ProductResult {
   loading: boolean;
   error: string | null | undefined;
 }
+
+//scroll
+export type Scroll = {
+  layoutMeasurement: any;
+  contentOffset: any;
+  contentSize: any;
+};

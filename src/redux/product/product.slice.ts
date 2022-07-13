@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {RootState} from '../store';
 import {API_URL} from '@env';
-import {ProductResult} from '@models/product.model';
+import {ProductResult, ProductSearch} from '@models/product.model';
 import axios from 'axios';
 
 const initialState: ProductResult = {
@@ -14,11 +14,15 @@ const initialState: ProductResult = {
 };
 
 //product
-export const getProduct = createAsyncThunk(
+export const getProducts = createAsyncThunk(
   'product/get',
-  async (_, {rejectWithValue}) => {
+  async (filter: ProductSearch, {rejectWithValue}) => {
     try {
-      const url = `${API_URL}/product/all-product?limit=100`;
+      let params = '';
+      if (filter.page) {
+        params += `&page=${filter.page}`;
+      }
+      const url = `${API_URL}/product/all-product?limit=10${params}`;
       const response = await (
         await axios.get<ProductResult>(url, {
           headers: {},
@@ -38,7 +42,7 @@ const productSlice = createSlice({
   extraReducers: builder => {
     // fullfiled, pending, rejected
     builder
-      .addCase(getProduct.pending, state => {
+      .addCase(getProducts.pending, state => {
         state.loading = true;
         state.data = [];
         state.error = '';
@@ -46,7 +50,7 @@ const productSlice = createSlice({
         state.pagination = undefined;
         state.background_image = '';
       })
-      .addCase(getProduct.fulfilled, (state, action) => {
+      .addCase(getProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.error = '';
         state.data = action.payload.data;
@@ -54,7 +58,7 @@ const productSlice = createSlice({
         state.pagination = action.payload.pagination;
         state.background_image = action.payload.background_image;
       })
-      .addCase(getProduct.rejected, (state, action: any) => {
+      .addCase(getProducts.rejected, (state, action: any) => {
         state.loading = false;
         state.data = [];
         state.count = 0;
@@ -64,5 +68,6 @@ const productSlice = createSlice({
       });
   },
 });
-export const productSelector = (store: RootState): ProductResult => store.product;
+export const productSelector = (store: RootState): ProductResult =>
+  store.product;
 export default productSlice.reducer;

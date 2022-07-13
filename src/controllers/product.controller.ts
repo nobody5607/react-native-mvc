@@ -2,19 +2,71 @@ import React from 'react';
 //redux
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '@redux/store';
-import {getProduct, productSelector} from '@redux/product/product.slice';
+import {getProducts, productSelector} from '@redux/product/product.slice';
+import {Product, ProductSearch, Scroll} from '@models/product.model';
 
 const ProductController = () => {
   const dispatch = useAppDispatch();
-  const {data, error, loading} = useSelector(productSelector);
+  const [refreshing, setRefreshing] = React.useState<boolean>(false);
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const [filterProduct, setFilterProduct] = React.useState<ProductSearch>({});
+
+
+  const {data, error, loading, pagination, count} =
+    useSelector(productSelector);
+
+  //getProductAll func
+  const getProductAll = () => {
+    console.log('load product...');
+    dispatch(getProducts(filterProduct))
+      .unwrap()
+      .then(res => {
+        setProducts(res.data);
+      });
+  };
+
+  //refresh product  
+  const onRefresh = React.useCallback(() => {
+    dispatch(getProducts(filterProduct));
+  }, []);
+
+  //load more
+  const loadMore = async () => {
+    if (pagination?.page && data.length > 0) {
+      let filter = {
+        page: pagination.page + 1,
+      };
+      dispatch(getProducts(filter))
+        .unwrap()
+        .then(res => {
+          setProducts(data.concat(res.data));
+        });
+    }
+  }; 
+
+  //isCloseToBottom
+  const isCloseToBottom = (scroll: Scroll) => {
+    const paddingToBottom = 20;
+    return (
+      scroll.layoutMeasurement.height + scroll.contentOffset.y >=
+      scroll.contentSize.height - paddingToBottom
+    );
+  };
+
   React.useEffect(() => {
-    dispatch(getProduct());
+    getProductAll();
   }, [dispatch]);
 
   return {
-    data,
+    products,
     error,
     loading,
+    pagination,
+    count,
+    onRefresh,
+    refreshing,
+    isCloseToBottom,
+    loadMore,
   };
 };
 export default ProductController;
