@@ -3,9 +3,9 @@ const colors = {
   secondary: 'red',
   info: 'skyblue',
   success: '',
-  warning: '',
+  warning: 'orange',
   danger: '',
-  while: '#fff',
+  white: '#fff',
   black: '#000',
   gray: '#f9f9f9',
 };

@@ -1,4 +1,4 @@
-import { ActivityIndicator, Dimensions, FlatList, Image, RefreshControl, SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, FlatList, Image, RefreshControl, SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import React from 'react';
 import ProductController from '@controllers/product.controller';
 import { Product } from '@models/product.model';
@@ -8,10 +8,10 @@ import { scale } from 'react-native-size-matters';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const ProductScreen = () => {
-    const isDarkMode = useColorScheme() === 'dark'; //'light','dark'
+    const isDarkMode = useColorScheme() === 'light'; //'light','dark'
 
     const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+        backgroundColor: isDarkMode ? Colors.darker : colors.white,
     };
 
     const { products, loading, error, refreshing, count, onRefresh, isCloseToBottom, loadMore } = ProductController();
@@ -42,20 +42,21 @@ const ProductScreen = () => {
                 numColumns={2}
                 renderItem={({ item }) => <ProductItems product={item} />}
                 keyExtractor={(item: Product) => item.product_id}
-                scrollEventThrottle={1000}
+                scrollEventThrottle={1500}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
             />}
             {error && <View><Text>{error}</Text></View>}
-            {loading && <ActivityIndicator size="large" color={colors.primary} />}
+            {loading && <ActivityIndicator size="large" color={colors.warning} />}
+
         </SafeAreaView>
     );
 };
 export default ProductScreen;
 const styles = StyleSheet.create({
     productCartLight: {
-        backgroundColor: Colors.lighter,
+        backgroundColor: colors.white,
         borderRadius: 10,
         marginVertical: 15,
         marginHorizontal: 15,
