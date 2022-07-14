@@ -1,49 +1,48 @@
 export interface Product {
   product_id: string;
-  product_model: string;
   product_name: string;
-  brand_name: string;
-  p_brand_mat: string;
-  p_brand_color: string;
-  p_brand_type: string;
-  slug: string;
-  product_description: string;
-  product_price: string;
-  price_number: number;
+  product_detail: string;
   price: number;
-  discount_price: string;
+  disprice: string;
+  stock: string;
+  unit: string;
+  weight: string;
+  width: string;
+  length: string;
+  height: string;
   image: string;
-  image_flip: string;
-  created_at: string;
-  p_on_sale: number;
-  product_size: string;
-  product_condition: string;
-  product_type: string;
-  color_name: string;
-  accessories_all_text: string;
-  p_order_status: number;
-  categoryNames: string;
-  type: number;
-
-  favourite: number;
-  wisglitecount: number;
+  image1: string;
+  image2: string;
+  image3: string;
+  image4: string;
+  brand_id: string;
+  brand_name: string;
+  brand_icon: string;
+  category_id: string;
+  category_name: string;
+  sub1_id: string;
+  sub1_name: string;
+  sub1_icon: string;
+  sub2_id: string;
+  sub2_name: string;
+  sub2_icon: string;
 }
 export interface Pagination {
   page: number;
   items: string;
   totalPage: number;
 }
-export interface ProductSearch{
-  category?:string;
-  orderby?:string;
-  page?:number;
-  search?:string;
-  onsale?:string;
-  filter_condition?:string;
-  filter_designer?:string;
-  price?:string; 
-  filter_color?:string;
-  brand?:string;
+export interface ProductSearch {
+  category?: string;
+  orderby?: string;
+  page?: number;
+  search?: string;
+  onsale?: string;
+  filter_condition?: string;
+  filter_designer?: string;
+  price?: string;
+  filter_color?: string;
+  brand?: string;
 }
 export interface ProductResult {
   count: number;

@@ -4,6 +4,8 @@ import {useSelector} from 'react-redux';
 import {useAppDispatch} from '@redux/store';
 import {getProducts, productSelector} from '@redux/product/product.slice';
 import {Product, ProductSearch, Scroll} from '@models/product.model';
+import {useColorScheme} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const ProductController = () => {
   const dispatch = useAppDispatch();
@@ -11,6 +13,11 @@ const ProductController = () => {
   const [products, setProducts] = React.useState<Product[]>([]);
   const [filterProduct, setFilterProduct] = React.useState<ProductSearch>({});
 
+  const isDarkMode = useColorScheme() === 'dark'; //'light','dark'
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
 
   const {data, error, loading, pagination, count} =
     useSelector(productSelector);
@@ -25,7 +32,7 @@ const ProductController = () => {
       });
   };
 
-  //refresh product  
+  //refresh product
   const onRefresh = React.useCallback(() => {
     dispatch(getProducts(filterProduct));
   }, []);
@@ -42,7 +49,7 @@ const ProductController = () => {
           setProducts(data.concat(res.data));
         });
     }
-  }; 
+  };
 
   //isCloseToBottom
   const isCloseToBottom = (scroll: Scroll) => {
@@ -67,6 +74,8 @@ const ProductController = () => {
     refreshing,
     isCloseToBottom,
     loadMore,
+    isDarkMode,
+    backgroundStyle,
   };
 };
 export default ProductController;

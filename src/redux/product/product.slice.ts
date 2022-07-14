@@ -22,7 +22,8 @@ export const getProducts = createAsyncThunk(
       if (filter.page) {
         params += `&page=${filter.page}`;
       }
-      const url = `${API_URL}/product/all-product?limit=10${params}`;
+      const url = `${API_URL}/product?limit=10${params}`;
+      console.log(url);
       const response = await (
         await axios.get<ProductResult>(url, {
           headers: {},

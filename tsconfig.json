@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
+  // "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
@@ -14,20 +14,22 @@
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
-    "target": "esnext",  
-    "baseUrl": "./",   
+    "target": "esnext",
+    "baseUrl": "./",
     "paths": {
       "*": ["src/*"],
       "@components/*": ["src/components/*"],
+      "@navigations/*": ["src/navigations/*"],
       "@controllers/*": ["src/controllers/*"],
       "@models/*": ["src/models/*"],
       "@screens/*": ["src/screens/*"],
       "@utils/*": ["src/utils/*"],
       "@themes/*": ["src/themes/*"],
       "@redux/*": ["src/redux/*"],
-      "@assets/*": ["src/assets/*"],
-    },
-  },"exclude": [
+      "@assets/*": ["src/assets/*"]
+    }
+  },
+  "exclude": [
     "node_modules",
     "babel.config.js",
     "metro.config.js",
